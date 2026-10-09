@@ -1,17 +1,21 @@
-{% extends "./base.html"%}
+{% extends 'events/base.html' %}
 
 {% block content %}
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h2 class="mb-3">{{ event.title }}</h2>
+            <p>{{ event.description }}</p>
 
-        <div class = "text-center mt-5">
+            {% if event.poster %}
+                <img src="{{ event.poster.url }}" alt="{{ event.title }}" class="img-fluid rounded mb-3" style="max-height: 500px;">
+            {% endif %}
 
-            {% for event in events %}
-                <h2>{{event.title}}</h2>
-                <p>{{event.description}}</p>
-
-                <a href="{% url 'events:event_list' %}">Все ивенты</a>
-
-            {% endfor %}
-
+            <div class="d-flex gap-2">
+                <a href="{% url 'events:event_list' %}" class="btn btn-secondary">List</a>
+                <a href="{% url 'events:event_create' %}" class="btn btn-primary">Create</a>
+                <a href="{% url 'events:event_update' event.pk %}" class="btn btn-warning">Update</a>
+                <a href="{% url 'events:event_delete' event.pk %}" class="btn btn-danger">Delete</a>
+            </div>
         </div>
-
-        {% endblock %}
+    </div>
+{% endblock %}
