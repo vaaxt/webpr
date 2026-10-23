@@ -1,0 +1,27 @@
+{% extends 'events/base.html' %}
+
+{% block content %}
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+                    <h1 class="h2 mb-4">Редактировать профиль</h1>
+
+                    {% if profile.avatar %}
+                        <div class="mb-3">
+                            <img src="{{ profile.avatar.url }}" alt="Текущий аватар"
+                                 class="rounded-circle" width="96" height="96" style="object-fit: cover;">
+                        </div>
+                    {% endif %}
+
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button class="btn btn-primary" type="submit">Сохранить</button>
+                        <a class="btn btn-outline-secondary" href="{% url 'profile' %}">Отмена</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

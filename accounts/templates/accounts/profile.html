@@ -1,0 +1,46 @@
+{% extends 'events/base.html' %}
+
+{% block content %}
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+                    <div class="d-flex flex-column flex-sm-row align-items-center gap-4 mb-4">
+                        {% if profile.avatar %}
+                            <img src="{{ profile.avatar.url }}" alt="Аватар {{ profile_user.username }}"
+                                 class="rounded-circle" width="128" height="128" style="object-fit: cover;">
+                        {% else %}
+                            <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center"
+                                 style="width: 128px; height: 128px; font-size: 2rem;">
+                                {{ profile_user.first_name|first|default:profile_user.username|first|upper }}
+                            </div>
+                        {% endif %}
+                        <div>
+                            <h1 class="h2 mb-1">Мой профиль</h1>
+                            <p class="text-muted mb-0">{{ profile_user.get_full_name|default:profile_user.username }}</p>
+                        </div>
+                    </div>
+
+                    <dl class="row mb-4">
+                        <dt class="col-sm-4">Имя</dt>
+                        <dd class="col-sm-8">{{ profile_user.first_name|default:'—' }}</dd>
+
+                        <dt class="col-sm-4">Фамилия</dt>
+                        <dd class="col-sm-8">{{ profile_user.last_name|default:'—' }}</dd>
+
+                        <dt class="col-sm-4">Email</dt>
+                        <dd class="col-sm-8">{{ profile_user.email|default:'—' }}</dd>
+
+                        <dt class="col-sm-4">Город</dt>
+                        <dd class="col-sm-8">{{ profile.city|default:'—' }}</dd>
+
+                        <dt class="col-sm-4">О себе</dt>
+                        <dd class="col-sm-8">{{ profile.about|default:'—'|linebreaksbr }}</dd>
+                    </dl>
+
+                    <a class="btn btn-primary" href="{% url 'profile_edit' %}">Редактировать профиль</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

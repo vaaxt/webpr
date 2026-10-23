@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,11 +8,39 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
-        <div class="container">
+        <div class="container d-flex align-items-center justify-content-between flex-wrap gap-2">
             <a class="navbar-brand" href="{% url 'events:event_list' %}">Events</a>
-            <div class="d-flex gap-2">
-                <a class="btn btn-outline-light btn-sm" href="{% url 'events:event_list' %}">List</a>
-                <a class="btn btn-outline-light btn-sm" href="{% url 'events:event_create' %}">Create</a>
+            <div class="d-flex align-items-center flex-wrap gap-2">
+                <a class="btn btn-outline-light btn-sm" href="{% url 'events:event_list' %}">Все события</a>
+                <a class="btn btn-outline-light btn-sm" href="{% url 'events:event_create' %}">Создать событие</a>
+                {% if user.is_authenticated %}
+                    <a class="btn btn-warning d-inline-flex align-items-center gap-2"
+                       href="{% url 'profile' %}" aria-label="Мой профиль: {{ user.get_full_name|default:user.username }}">
+                        {% if user.profile.avatar %}
+                            <img src="{{ user.profile.avatar.url }}" alt=""
+                                 class="rounded-circle" width="28" height="28" style="object-fit: cover;">
+                        {% else %}
+                            <span class="rounded-circle bg-dark text-white d-inline-flex align-items-center justify-content-center"
+                                  style="width: 28px; height: 28px;">
+                                {{ user.get_full_name|default:user.username|first|upper }}
+                            </span>
+                        {% endif %}
+                        <strong>Мой профиль</strong>
+                        <span>{{ user.get_full_name|default:user.username }}</span>
+                    </a>
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button class="btn btn-outline-light btn-sm" type="submit">Logout</button>
+                    </form>
+                {% else %}
+                    <a class="btn btn-warning d-inline-flex align-items-center gap-2"
+                       href="{% url 'login' %}?next={% url 'profile' %}">
+                        <span aria-hidden="true">👤</span>
+                        <strong>Мой профиль</strong>
+                    </a>
+                    <a class="btn btn-outline-light btn-sm" href="{% url 'login' %}">Login</a>
+                    <a class="btn btn-outline-light btn-sm" href="{% url 'signup' %}">Sign up</a>
+                {% endif %}
             </div>
         </div>
     </nav>
